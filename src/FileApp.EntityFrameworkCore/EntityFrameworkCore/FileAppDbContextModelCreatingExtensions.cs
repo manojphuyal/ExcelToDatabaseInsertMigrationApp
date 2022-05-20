@@ -199,6 +199,22 @@ namespace FileApp.EntityFrameworkCore
                 b.Property(p => p.LabelData).IsRequired(true).HasMaxLength(400);
 
             });
+            builder.Entity<AttendanceDetail>(b =>
+            {
+                b.ToTable("AttendanceDetails");
+                b.ConfigureConcurrencyStamp();
+                b.ConfigureExtraProperties();
+                b.ConfigureAudited();
+                b.ConfigureByConvention();
+
+                b.Property(p => p.AttendanceIn).IsRequired(true);
+                b.Property(p => p.AttendanceOutAt).IsRequired(false);
+                b.Property(p => p.IsHalfDay).IsRequired(true);
+                b.Property(p => p.IsActive).HasDefaultValue(true).IsRequired(true);
+                b.Property(p => p.IsInGracePeriod).IsRequired(true);
+                b.Property(p => p.IsFingerprint).IsRequired(true).HasDefaultValue(false);
+
+            });
 
 
             builder.Entity<ContactPerson>(b =>

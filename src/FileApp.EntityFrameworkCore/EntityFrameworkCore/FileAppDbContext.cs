@@ -43,6 +43,7 @@ namespace FileApp.EntityFrameworkCore
         public  DbSet<ContactCompany> ContactCompanies { get; set; }
         public  DbSet<ContactLabelData> ContactLabelDatas { get; set; }
         public  DbSet<ContactPerson> ContactPeople { get; set; }
+        public  DbSet<AttendanceDetail> AttendanceDetails { get; set; }
 
 
 

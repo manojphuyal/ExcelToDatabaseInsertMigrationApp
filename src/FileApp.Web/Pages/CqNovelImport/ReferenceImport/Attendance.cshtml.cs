@@ -1,11 +1,12 @@
 ﻿using FileApp.CqNovelImport.ImportContact;
+using FileApp.Import;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
-namespace FileApp.Web.Pages.CqNovelImport.ImportContact
+namespace FileApp.Web.Pages.CqNovelImport.ReferenceImport
 {
     public class AttendanceModel : FileAppPageModel
     {
@@ -18,8 +19,8 @@ namespace FileApp.Web.Pages.CqNovelImport.ImportContact
         [BindProperty]
         public string Code { get; set; }
 
-        private readonly IImportContactAppService _attendanceDetailRepository;
-        public AttendanceModel(IImportContactAppService attendanceDetailRepository)
+        private readonly IImportAppService _attendanceDetailRepository;
+        public AttendanceModel(IImportAppService attendanceDetailRepository)
         {
             _attendanceDetailRepository = attendanceDetailRepository;
         }

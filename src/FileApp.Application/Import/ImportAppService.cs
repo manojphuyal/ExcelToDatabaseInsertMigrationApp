@@ -26,6 +26,8 @@ namespace FileApp.Import
             private readonly IRepository<ReferenceOthers, Guid> _referenceOthersRepository;
 
             private readonly IRepository<ContactCompany, Guid> _contactCompanyRepository;
+        private readonly IRepository<AttendanceDetail, Guid> _attendanceDetailRepository;
+
 
 
         public ImportAppService(IRepository<Reference, Guid> referenceModelRepository,
@@ -34,9 +36,11 @@ namespace FileApp.Import
                                         IRepository<Project, Guid> projectRepository,
                                         IRepository<ReferenceOthers, Guid> referenceOthersRepository,
 
-                                        IRepository<ContactCompany, Guid> contactCompanyRepository
+                                        IRepository<ContactCompany, Guid> contactCompanyRepository,
+                                        IRepository<AttendanceDetail, Guid> attendanceDetailRepository
+
             )
-            {
+        {
                 this._referenceModelRepository = referenceModelRepository;
                 this._referenceTypeModelRepository = referenceTypeModelRepository;
                 this._tenderBasicRepository = tenderBasicRepository;
@@ -44,6 +48,8 @@ namespace FileApp.Import
                 this._referenceOthersRepository = referenceOthersRepository;
 
                 this._contactCompanyRepository = contactCompanyRepository;
+            this._attendanceDetailRepository = attendanceDetailRepository;
+
         }
 
         #region Import Reference
@@ -702,6 +708,149 @@ namespace FileApp.Import
 
 
 
+        #region 5 Import Attendance
+        [HttpPost]
+        public async Task<string> ImportExcelAttendance([FromForm] IFormFile excel)
+        {
+            try
+            {
+                if (excel == null | excel.Length <= 0)
+                {
+                    throw new UserFriendlyException("File not found");
+                }
+                if (!Path.GetExtension(excel.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
+                {
+                    throw new UserFriendlyException("File fotmat not correct");
+                }
+                var list = new List<AttendanceDetail>();
+
+                using (var stream = new MemoryStream())
+                {
+                    await excel.CopyToAsync(stream);
+                    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                    using (var package = new ExcelPackage(stream))
+                    {
+
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+
+                        var excelColoumn = new Dictionary<string, int>() {
+                            { "Date/Time",0},
+                            { "Status",0},
+                        };
+
+                        //for(var i in worksheet.Column)
+                        var coloumnCount = worksheet.Dimension.End.Column;
+                        for (int i = 1; i <= coloumnCount; i++)
+                        {
+                            if (worksheet.Cells[1, i].Value.ToString().Equals("Date/Time", StringComparison.OrdinalIgnoreCase))
+                            {
+                                excelColoumn["Date/Time"] = i;
+                            }
+                            if (worksheet.Cells[1, i].Value.ToString().Equals("Status", StringComparison.OrdinalIgnoreCase))
+                            {
+                                excelColoumn["Status"] = i;
+                            }
+                        }
+
+
+                        var cityColoumn = worksheet.Cells[1, 1].Value.ToString().Trim().Equals("oldid", StringComparison.OrdinalIgnoreCase);
+                        var rowCount = worksheet.Dimension.Rows;
+                        for (int row = 2; row <= rowCount; row++)
+                        {
+
+                            var dateTime = worksheet.Cells[row, excelColoumn["Date/Time"]].Value is null
+                                ? string.Empty
+                                : worksheet.Cells[row, excelColoumn["Date/Time"]].Text.Trim();
+
+                            var status = worksheet.Cells[row, excelColoumn["Status"]].Value is null
+                                ? string.Empty
+                                : worksheet.Cells[row, excelColoumn["Status"]].Text.Trim();
+
+                            if (status == "C/In")
+                            {
+                                list.Add(new AttendanceDetail
+                                {
+
+                                    AppUserId = Guid.Parse("2CB1F36E-D6C6-9725-34A8-3A010D10C7FA"),
+                                    CreatorId = Guid.Parse("2CB1F36E-D6C6-9725-34A8-3A010D10C7FA"),
+                                    CreationTime = DateTime.Now,
+                                    IsHalfDay = false,
+                                    IsInGracePeriod = false,
+                                    IsFingerprint = true,
+                                    IsActive = true,
+                                    AttendanceIn = DateTime.Parse(dateTime),
+                                    AttendanceTypeId = Guid.Parse("23235D3A-65F0-4ECE-ADEA-6E6AE7B35182")
+                                });
+                            }
+                            else if (status == "C/Out")
+                            {
+                                list.Add(new AttendanceDetail
+                                {
+
+                                    AppUserId = Guid.Parse("2CB1F36E-D6C6-9725-34A8-3A010D10C7FA"),
+                                    CreatorId = Guid.Parse("2CB1F36E-D6C6-9725-34A8-3A010D10C7FA"),
+                                    CreationTime = DateTime.Now,
+                                    IsHalfDay = false,
+                                    IsInGracePeriod = false,
+                                    IsFingerprint = true,
+                                    IsActive = true,
+                                    AttendanceIn = DateTime.Parse(dateTime),
+                                    AttendanceOutAt = DateTime.Parse(dateTime),
+                                    AttendanceTypeId = Guid.Parse("4BDED14E-BCAF-4AB6-ACEF-C7100C206837")
+                                });
+                            }
+                            else if (status == "OverTime In")
+                            {
+                                list.Add(new AttendanceDetail
+                                {
+
+                                    AppUserId = Guid.Parse("2CB1F36E-D6C6-9725-34A8-3A010D10C7FA"),
+                                    CreatorId = Guid.Parse("2CB1F36E-D6C6-9725-34A8-3A010D10C7FA"),
+                                    CreationTime = DateTime.Now,
+                                    IsHalfDay = false,
+                                    IsInGracePeriod = false,
+                                    IsFingerprint = true,
+                                    IsActive = true,
+                                    AttendanceIn = DateTime.Parse(dateTime),
+                                    AttendanceOutAt = DateTime.Parse(dateTime),
+                                    AttendanceTypeId = Guid.Parse("F5984ACD-5295-483F-8695-4573D436D76D")
+                                });
+                            }
+                            else if (status == "OverTime Out")
+                            {
+                                list.Add(new AttendanceDetail
+                                {
+
+                                    AppUserId = Guid.Parse("2CB1F36E-D6C6-9725-34A8-3A010D10C7FA"),
+                                    CreatorId = Guid.Parse("2CB1F36E-D6C6-9725-34A8-3A010D10C7FA"),
+                                    CreationTime = DateTime.Now,
+                                    IsHalfDay = false,
+                                    IsInGracePeriod = false,
+                                    IsFingerprint = true,
+                                    IsActive = true,
+                                    AttendanceIn = DateTime.Parse(dateTime),
+                                    AttendanceOutAt = DateTime.Parse(dateTime),
+                                    AttendanceTypeId = Guid.Parse("6AF62F91-F20B-4A2E-BA17-BDB5DD1EEDB1")
+                                });
+                            }
+                        }
+                    }
+                }
+                if (list.Count > 0)
+                {
+                    await _attendanceDetailRepository.InsertManyAsync(list);
+                    await CurrentUnitOfWork.SaveChangesAsync();
+                    return "Sucessfully Uploaded in database";
+                }
+
+                return "Excel file couldnot be uploaded";
+            }
+            catch (Exception ex)
+            {
+                throw new UserFriendlyException(ex.Message);
+            }
+        }
+        #endregion Import
         //#region Import test
         //[HttpPost]
         //public async Task<string> ImportExcel([FromForm] IFormFile excel)

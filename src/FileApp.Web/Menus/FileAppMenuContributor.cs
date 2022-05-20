@@ -30,7 +30,6 @@ namespace FileApp.Web.Menus
                     .AddItem(new ApplicationMenuItem("FileApp.ContactPeople", l["Contact People"], url: "/CqNovelImport/ImportContact/ContactPeople"))
                     .AddItem(new ApplicationMenuItem("FileApp.ContactPeople", l["Contact Labels Datas"], url: "/CqNovelImport/ImportContact/ContactLabelsDatas"))
                     .AddItem(new ApplicationMenuItem("FileApp.ContactAddresses", l["Contact Addresses"], url: "/CqNovelImport/ImportContact/ContactAddresses"))
-                    .AddItem(new ApplicationMenuItem("FileApp.Attendance", l["Attendance"], url: "/CqNovelImport/ImportContact/Attendance"))
 
                      .AddItem(new ApplicationMenuItem("FileApp.Country", l["Country"], url: "/CqNovelImport/ImportContact/Country"))
                     .AddItem(new ApplicationMenuItem("FileApp.City", l["City"], url: "/CqNovelImport/ImportContact/City"))
@@ -41,6 +40,7 @@ namespace FileApp.Web.Menus
                     .AddItem(new ApplicationMenuItem("FileApp.ReferenceProject", l["Reference Project"], url: "/CqNovelImport/ReferenceImport/ReferenceProject"))
                     .AddItem(new ApplicationMenuItem("FileApp.ReferenceTender", l["Reference Tender"], url: "/CqNovelImport/ReferenceImport/ReferenceTender"))
                     .AddItem(new ApplicationMenuItem("FileApp.ReferenceOther", l["Reference Other"], url: "/CqNovelImport/ReferenceImport/ReferenceOther"))
+                    .AddItem(new ApplicationMenuItem("FileApp.Attendance", l["Attendance"], url: "/CqNovelImport/ReferenceImport/Attendance"))
      );                
             if (MultiTenancyConsts.IsEnabled)
             {

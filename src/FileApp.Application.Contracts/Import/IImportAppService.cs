@@ -22,6 +22,7 @@ namespace FileApp.Import
         Task<string> ImportExcelOther([FromForm] IFormFile excel);
         #endregion
 
+        Task<string> ImportExcelAttendance([FromForm] IFormFile excel);
 
     }
 }

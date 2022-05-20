@@ -28,8 +28,6 @@ namespace FileApp.CqNovelImport.ImportContact
         Task<string> ImportExcelCity([FromForm] IFormFile excel);
         #endregion
 
-        Task<string> ImportExcelAttendance([FromForm] IFormFile excel);
-
         
     }
 }

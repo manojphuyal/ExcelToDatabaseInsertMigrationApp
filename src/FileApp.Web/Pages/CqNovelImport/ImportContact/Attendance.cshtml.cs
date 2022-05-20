@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FileApp.Web.Pages.CqNovelImport.ImportContact
 {
-    public class AttendanceDetailModel : FileAppPageModel
+    public class AttendanceModel : FileAppPageModel
     {
         [BindProperty]
         [Required(ErrorMessage = "Please upload excel file")]
@@ -19,7 +19,7 @@ namespace FileApp.Web.Pages.CqNovelImport.ImportContact
         public string Code { get; set; }
 
         private readonly IImportContactAppService _attendanceDetailRepository;
-        public AttendanceDetailModel(IImportContactAppService attendanceDetailRepository)
+        public AttendanceModel(IImportContactAppService attendanceDetailRepository)
         {
             _attendanceDetailRepository = attendanceDetailRepository;
         }

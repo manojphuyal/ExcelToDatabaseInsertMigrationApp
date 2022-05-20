@@ -30,6 +30,7 @@ namespace FileApp.Web.Menus
                     .AddItem(new ApplicationMenuItem("FileApp.ContactPeople", l["Contact People"], url: "/CqNovelImport/ImportContact/ContactPeople"))
                     .AddItem(new ApplicationMenuItem("FileApp.ContactPeople", l["Contact Labels Datas"], url: "/CqNovelImport/ImportContact/ContactLabelsDatas"))
                     .AddItem(new ApplicationMenuItem("FileApp.ContactAddresses", l["Contact Addresses"], url: "/CqNovelImport/ImportContact/ContactAddresses"))
+                    .AddItem(new ApplicationMenuItem("FileApp.Attendance", l["Attendance"], url: "/CqNovelImport/ImportContact/Attendance"))
 
                      .AddItem(new ApplicationMenuItem("FileApp.Country", l["Country"], url: "/CqNovelImport/ImportContact/Country"))
                     .AddItem(new ApplicationMenuItem("FileApp.City", l["City"], url: "/CqNovelImport/ImportContact/City"))

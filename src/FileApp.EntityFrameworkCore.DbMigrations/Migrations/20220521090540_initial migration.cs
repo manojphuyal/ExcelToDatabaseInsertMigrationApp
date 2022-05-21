@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FileApp.Migrations
 {
-    public partial class initialMigration : Migration
+    public partial class initialmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -273,6 +273,32 @@ namespace FileApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AttendanceDetails",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AppUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AttendanceIn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AttendanceOutAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsHalfDay = table.Column<bool>(type: "bit", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    IsInGracePeriod = table.Column<bool>(type: "bit", nullable: false),
+                    DailyloginDetailId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsFingerprint = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    AttendanceTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AttendanceDetails", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Cities",
                 columns: table => new
                 {
@@ -447,6 +473,7 @@ namespace FileApp.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     OldId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -672,6 +699,7 @@ namespace FileApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    OldId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ReferenceCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Title = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -699,6 +727,8 @@ namespace FileApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    OldId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ReferenceCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -718,13 +748,15 @@ namespace FileApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    OldId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ForeignKeyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Year = table.Column<int>(type: "int", nullable: false),
-                    SlNo = table.Column<int>(type: "int", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SlNo = table.Column<int>(type: "int", nullable: false),
+                    Symbol = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Year = table.Column<int>(type: "int", nullable: false),
                     ReferenceTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ForeignKeyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    KeyWords = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -761,6 +793,7 @@ namespace FileApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    OldId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ReferenceCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TenderStageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TenderTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -1610,6 +1643,9 @@ namespace FileApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "AbpUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "AttendanceDetails");
 
             migrationBuilder.DropTable(
                 name: "Cities");

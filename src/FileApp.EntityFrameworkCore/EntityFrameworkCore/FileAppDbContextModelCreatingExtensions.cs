@@ -213,6 +213,8 @@ namespace FileApp.EntityFrameworkCore
                 b.Property(p => p.IsActive).HasDefaultValue(true).IsRequired(true);
                 b.Property(p => p.IsInGracePeriod).IsRequired(true);
                 b.Property(p => p.IsFingerprint).IsRequired(true).HasDefaultValue(false);
+                b.Property(p => p.AttendanceTypeId).IsRequired(true);
+
 
             });
 
